@@ -132,7 +132,7 @@ app.post('/api/watchCalendar', function (req,res) {
     url: url,
     method: "POST",
     headers: {
-      "Authorization": "Bearer " + token.accessToken,
+      "Authorization": token.accessToken,
       "Content-Type": "application/json"
     },
     json: {
@@ -161,6 +161,7 @@ app.post('/api/statusChange', function(req,res) {
   }
   oldstate_title = req.body.oldState.title;
   newstate_title = req.body.newState.title;
+  filePath = req.body.pathOnDisk;
 
 
   var token = _.find(user.tokens, { kind: 'google' });
@@ -174,7 +175,7 @@ app.post('/api/statusChange', function(req,res) {
 
   var body = {
     "summary": format_title,
-    "description": 'Please insert pretty data here',
+    "description": "FILE PATH: " + filePath,
     "end": {
       "dateTime": new Date().toISOString()
     },
