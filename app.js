@@ -163,7 +163,6 @@ app.post('/api/statusChange', function(req,res) {
 });
 
 app.get('/api', apiController.getApi);
-app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);
 app.get('/api/aviary', apiController.getAviary);
 app.get('/api/steam', apiController.getSteam);
