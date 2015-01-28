@@ -296,8 +296,8 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
         done(err);
       } else {
         User.findById(req.user.id, function(err, user) {
+          // test
           user.google = profile.id;
-          console.log(user.tokens);
           user.tokens.push({ kind: 'google', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
           user.profile.gender = user.profile.gender || profile._json.gender;
