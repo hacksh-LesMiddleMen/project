@@ -135,7 +135,7 @@ app.post('/api/watchCalendar', function (req,res) {
       "Authorization": "Bearer " + token.accessToken,
       "Content-Type": "application/json"
     },
-    body: {
+    json: {
       "id": "01234567-89ab-cdef-0123456789ab", // Your channel ID.
       "type": "web_hook",
       "address": "https://glacial-falls-6897.herokuapp.com/api/watchCallback" // Your receiving URL.
