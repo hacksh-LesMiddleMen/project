@@ -124,9 +124,9 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 
 app.post('/api/watchCalendar', function (req,res) {
-  var token = 'ya29.CQFandYflu39KPflDGrmVBJEIDG2E8Dnk5GGAcRQJBrL$Gf_NHPNYx315UyhdSa8VJmDHsDSEACHBA'
+  // var token = 'ya29.CQFandYflu39KPflDGrmVBJEIDG2E8Dnk5GGAcRQJBrL$Gf_NHPNYx315UyhdSa8VJmDHsDSEACHBA'
   var url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/watch'
-  // var token = _.find(user.tokens, { kind: 'google' });
+  var token = _.find(user.tokens, { kind: 'google' });
 
   var options = {
     url: url,
@@ -135,7 +135,7 @@ app.post('/api/watchCalendar', function (req,res) {
       "Authorization": "Brearer" + token,
       "Content-Type": "application/json"
     },
-    body: {
+    form: {
       "id": "01234567-89ab-cdef-0123456789ab", // Your channel ID.
       "type": "web_hook",
       "address": "https://glacial-falls-6897.herokuapp.com/api/watchCallback" // Your receiving URL.
