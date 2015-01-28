@@ -221,8 +221,8 @@ app.post('/api/statusChange', function(req,res) {
 
 app.get('/api/sendData', function(req,res) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ 'hello': 1 }));
-    // return res.send(data);
+    data = JSON.stringify({ 'hello' : 1 } );
+    return res.send(data);
 });
 
 app.post('/api/watchCallback', function(req,res) {
