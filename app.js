@@ -132,7 +132,7 @@ app.post('/api/watchCalendar', function (req,res) {
     url: url,
     method: "POST",
     headers: {
-      "Authorization": "Brearer" + token.accessToken,
+      "Authorization": "Brearer " + token.accessToken,
       "Content-Type": "application/json"
     },
     form: {
