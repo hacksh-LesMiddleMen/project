@@ -314,12 +314,11 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
       if (existingUser) {
           existingUser.tokens = { kind: 'google', accessToken: accessToken };
           existingUser.save(function(err) {
-            return done(null, existingUser);
+            done(null, existingUser);
           });
           // user.tokens.push({ kind: 'google', accessToken: accessToken });
-        return done(null, existingUser);
+        done(null, existingUser);
       }
-
       User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
         if (existingEmailUser) {
           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.' });
