@@ -221,7 +221,12 @@ app.post('/api/statusChange', function(req,res) {
 
 app.get('/api/sendData', function(req,res) {
     res.setHeader('Content-Type', 'application/json');
-    data = JSON.stringify({ 'hello' : 1 } );
+    data = JSON.stringify(
+      {
+        'fileName': 'C:\Users\JC\Documents\CCH\T1 Taxprep 2014\Client\dsded1.114',
+        "CellId": "PROFILE.Current",
+        "Value": "Client 2"
+      });
     return res.send(data);
 });
 
