@@ -125,7 +125,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 
 app.post('/api/watchCalendar', function (req,res) {
-  var url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/watch'
+  var url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/watch?key=AIzaSyDUi29BN0cnMbYxBN9SJPnv174t2G6k8T0'
   var token = _.find(user.tokens, { kind: 'google' });
 
   var options = {
