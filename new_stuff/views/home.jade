@@ -1,0 +1,158 @@
+extends layout
+
+block content
+    .container
+      .row.clearfix
+        .col-md-12.column
+          #LoginModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='LoginModalLabel', aria-hidden='true')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  ul.nav.nav-tabs.nav-justified.faq-cat-tabs
+                    li.active
+                      a(href='#login-tab', data-toggle='tab') Login
+                    li
+                      a(href='#register-tab', data-toggle='tab') Register
+                // /.modal-header
+                .modal-body
+                  // Tab panes
+                  .tab-content.faq-cat-content
+                    #login-tab.tab-pane.active.in.fade
+                      form(role='form')
+                        .input-group
+                          input#uLogin.form-control(type='text', placeholder='Username')
+                          span.input-group-btn
+                            button.btn.btn-default.disabled(type='button')
+                              span.glyphicon.glyphicon-user
+                        // /input-group
+                        .input-group
+                          input#uPassword.form-control(type='password', placeholder='Password')
+                          span.input-group-btn
+                            button.btn.btn-default.disabled(type='button')
+                              span.glyphicon.glyphicon-lock
+                        // /input-group
+                      a.btn.btn-default(href='#', role='button', data-dismiss='modal') Close
+                      button.btn.btn-success.pull-right Login
+                    #register-tab.tab-pane.fade
+                      form(role='form')
+                        .input-group
+                          input#uEmail.form-control(type='text', placeholder='Email')
+                          span.input-group-btn
+                            button.btn.btn-default.disabled(type='button')
+                              span.glyphicon.glyphicon-envelope
+                        // /input-group
+                        .input-group
+                          input#uUsername.form-control(type='text', placeholder='Username')
+                          span.input-group-btn
+                            button.btn.btn-default.disabled(type='button')
+                              span.glyphicon.glyphicon-user
+                        // /input-group
+                        .input-group
+                          input#uPassword.form-control(type='password', placeholder='Password')
+                          span.input-group-btn
+                            button.btn.btn-default.disabled(type='button')
+                              span.glyphicon.glyphicon-lock
+                        // /input-group
+                      a.btn.btn-default(href='#', role='button', data-dismiss='modal') Close
+                      button.btn.btn-success.pull-right Register
+                // /.modal-body
+              // /.modal-content
+            // /.modal-dialog
+          // /.modal
+      .row.clearfix
+        .col-md-12.column
+          .jumbotron
+            h1
+              | Wolters Kluwer Plugin Store
+            p
+              | API are for children.
+            p
+              .col-md-6.col-md-offset-3
+                .input-group.input-group-lg
+                  input.form-control(type='text', placeholder='mybeautifulemail@email.com')
+                  span.input-group-btn
+                    button.btn.btn-success(type='button') Try it !
+                // /input-group
+                hr
+          // FILTER
+          .row.clearfix
+            .col-md-12.column
+              nav.navbar.navbar-default
+                .container-fluid
+                  ul.nav.navbar-nav
+                    .navbar-brand(href='#')
+                      small Filtres
+                    li.dropdown
+                      a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                        | Software 
+                        span.caret
+                      ul.dropdown-menu(role='menu')
+                        li
+                          a(href='#') CanTax
+                        li.divider
+                        li
+                          a(href='#') Taxprep T1
+                        li
+                          a(href='#') Taxprep T2
+                        li.divider
+                        li
+                          a(href='#') AliForm
+                    li.dropdown
+                      a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                        | Year 
+                        span.caret
+                      ul.dropdown-menu(role='menu')
+                        li
+                          a(href='#') 2011
+                        li
+                          a(href='#') 2012
+                        li
+                          a(href='#') 2013
+                        li
+                          a(href='#') 2014
+                  ul.nav.navbar-nav.navbar-right
+                    form.navbar-form.navbar-left(role='search')
+                      .form-group
+                        input.form-control(type='text', placeholder='Search')
+                      button.btn.btn-default(type='submit') Search
+                // /.container-fluid
+          .row
+            .col-md-4
+              .media
+                .media-left.pull-left
+                  a(href='#')
+                    img.media-object(src='../images/calendar.png' style='width: 64px; height: 64px;')
+                .media-body
+                  h4.media-heading Google Calendar
+                  p Cras sit amet nibh libero, in gravida nulla.
+                  if !user
+                    a.btn.btn-block.btn-success(href='/auth/google') install it
+                  else
+                    a.btn.btn-block.disabled(href='') installed
+                    a.btn.btn-block.btn-danger(href='/logout') uninstall
+
+            .col-md-4
+              .media
+                .media-left.pull-left
+                  a(href='#')
+                    img.media-object(src='../images/dropbox.png' style='width: 64px; height: 64px;')
+                .media-body
+                  h4.media-heading DropBox
+                  p Cras sit amet nibh libero, in gravida nulla.
+                  if !user
+                    a.btn.btn-block.btn-success(href='/auth/google') install it
+                  else
+                    a.btn.btn-block.disabled(href='') installed
+                    a.btn.btn-block.btn-danger(href='/logout') uninstall
+            .col-md-4
+              .media
+                .media-left.pull-left
+                  a(href='#')
+                    img.media-object(data-src='holder.js/100x100', alt='64x64', src='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEzLjkyMTg3NSIgeT0iMzIiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTBwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj42NHg2NDwvdGV4dD48L2c+PC9zdmc+', data-holder-rendered='true', style='width: 64px; height: 64px;')
+                .media-body
+                  h4.media-heading Google Contacts
+                  p Cras sit amet nibh libero, in gravida nulla.
+                  a.btn.btn-block.disabled(href='') unavailable
+      .row.clearfix
+        .col-md-12.column
+
