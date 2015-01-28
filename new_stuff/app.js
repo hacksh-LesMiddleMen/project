@@ -219,8 +219,8 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile',  'e
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
-app.get('/auth/dropbox', passport.authenticate('dropbox'));
-app.get('/auth/dropbox/callback', passport.authenticate('dropbox', { failureRedirect: '/login' }), function(req, res) {
+app.get('/auth/dropbox', passport.authenticate('dropbox-oauth2'));
+app.get('/auth/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
 app.get('/auth/twitter', passport.authenticate('twitter'));

@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
-var DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
+var DropboxStrategy = require('passport-dropbox').OAuth2Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy;
@@ -239,12 +239,13 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
   }
 }));
 
+
+
+
+
 // /**
 //  * Sign in with Dropbox.
-//  *
-
-
-
+//  */
  passport.use(new DropboxStrategy(secrets.dropbox, function(req, accessToken, refreshToken, profile, done) {
    if (req.user) {
      User.findOne({ dropboxId: profile.id }, function(err, existingUser) {
@@ -254,10 +255,8 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
        } else {
          User.findById(req.user.id, function(err, user) {
            user.dropbox = profile.id;
-	   console.log('profile id ' + profile.id)
            user.tokens = {};
            user.tokens.push({ kind: 'dropbox', accessToken: accessToken });
-	   console.log('token : ' +user.tokens);
            user.profile.name = user.profile.name || profile.displayName;
            user.save(function(err) {
              req.flash('info', { msg: 'Dropbox account has been linked.' });
@@ -267,20 +266,11 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
        }
      });
    } else {
-	
-     console.log("Profile : " + profile.id);
-     User.findById({ dropboxId: profile.id }, function(err, existingUser) {
+     User.findOne({ dropboxId: profile.id }, function(err, existingUser) {
        if (existingUser) return done(null, existingUser);
-       console.log("user" + existingUser);
-
-
-	User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
-
-	console.log("email existing user " + existingEmailUser);
-
-
+       User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
          if (existingEmailUser) {
-	  req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Dropbox manually from Account Settings.' });
+           req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Dropbox manually from Account Settings.' });
            done(err);
          } else {
            var user = new User();
@@ -290,7 +280,7 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
            user.tokens.push({ kind: 'dropbox', accessToken: accessToken });
            user.profile.name = profile.displayName;
            user.save(function(err) {
-            done(err, user);
+             done(err, user);
            });
          }
        });
@@ -314,7 +304,7 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
           console.log(user.tokens);
           user.tokens.push({ kind: 'google', accessToken: accessToken });
           user.profile.name = user.profile.name || profile.displayName;
-         // user.profile.gender := user.profile.gender || profile._json.gender;
+          user.profile.gender = user.profile.gender || profile._json.gender;
           user.profile.picture = user.profile.picture || profile._json.picture;
           user.save(function(err) {
             req.flash('info', { msg: 'Google account has been linked.' });
@@ -486,4 +476,5 @@ exports.isAuthorized = function(req, res, next) {
     next();
   } else {
     res.redirect('/auth/' + provider);
-  }};
+  }
+};
