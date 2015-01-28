@@ -193,7 +193,18 @@ app.post('/api/statusChange', function(req,res) {
 });
 
 app.post('/api/watchCallback', function(req,res) {
+  console.log(req.resourceId);
   console.log(req.body);
+  eventId = req.resourceId;
+
+  var token = _.find(user.tokens, { kind: 'google' });
+  gcal(token.accessToken).events.get(calendarId, eventId, function(err, data) {
+    if(err) return res.send(500,err);
+
+    console.log(data);
+
+    return res.send(data);
+  });
   console.log("Callback worked");
 
 });
