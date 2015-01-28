@@ -192,6 +192,9 @@ app.post('/api/statusChange', function(req,res) {
 });
 
 app.post('/api/watchCallback', function(req,res) {
+  console.log("++++++++++++++++");
+  console.log(req);
+  console.log("@@@@@@@@@@@@@@@@@@@@@");
   console.log(req.resourceId);
   console.log(req.body);
   eventId = req.resourceId;
