@@ -143,6 +143,9 @@ app.post('/api/watchCalendar', function (req,res) {
   }
 
   request(options, function (error, response, body) {
+    console.log(error);
+    console.log(response);
+    console.log(body);
     console.log ("Hello !");
   });
 
