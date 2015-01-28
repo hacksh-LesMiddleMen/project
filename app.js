@@ -53,6 +53,10 @@ mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
 });
 
+mongoose.connection.on('success', function() {
+  console.error('Yes it works babe!');
+});
+
 /**
  * Express configuration.
  */
