@@ -314,10 +314,10 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
       if (existingUser) {
           existingUser.tokens = { kind: 'google', accessToken: accessToken };
           existingUser.save(function(err) {
-            done(null, existingUser);
+            return done(null, existingUser);
           });
           // user.tokens.push({ kind: 'google', accessToken: accessToken });
-        done(null, existingUser);
+        return done(null, existingUser);
       }
       User.findOne({ email: profile._json.email }, function(err, existingEmailUser) {
         if (existingEmailUser) {
