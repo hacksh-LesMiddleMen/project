@@ -118,37 +118,57 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  */
 app.post('/api/statusChange', function(req,res) {
   if (!req.body) return res.sendStatus(400)
+  console.log(req.body);
+  oldstate_title = req.body.oldState.title
+  newstate_title = req.body.newState.title
+
   var token = _.find(req.user.tokens, { kind: 'google' });
-  // calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
-  // dateTime = Date.now();
+  calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
+  dateTime = Date.now();
+  console.log(token);
+  console.log(dateTime);
+  dateTime = "2014-07-23T18:25:00.000-07:00";
+
+  var body = {
+    "summary": 'test2',
+    "description": 'test',
+    "end": {
+      "dateTime": dateTime
+    },
+    "start": {
+      "dateTime": dateTime
+    }
+  }
+  // console.log(req.user.tokens);
   // console.log(token);
-  // console.log(dateTime);
-  //
-  // var body = {
-  //   "description": 'test',
-  //   "end": {
-  //     "dateTime": dateTime
-  //   },
-  //   "start": {
-  //     "dateTime": dateTime
-  //   }
-  // }
-  console.log(token.accessToken);
+  // console.log(token.accessToken);
   // console.log(body);
 
-  gcal(token.accessToken).calendarList.list(function(err, data) {
+  // gcal(token.accessToken).calendarList.list(function(err, data) {
+  //   if(err) return res.send(500,err);
+  //   return res.send(data);
+  // });
+  format_title = "Status changed from " + oldstate_title + " to " + newstate_title;
+  gcal(token.accessToken).events.quickAdd(calendarId, format_title, function(err, data) {
     if(err) return res.send(500,err);
+
+    console.log(data);
+
     return res.send(data);
   });
-
-
-  // gcal(token.accessToken).events.insert(calendarId, { body: body }, function(err, data) {
+  // gcal(token.accessToken).events.insert(calendarId, {resource: body} , function(err, data) {
   //   if(err) return res.send(500,err);
   //
   //   console.log(data);
   //
   //   return res.send(data);
   // });
+});
+
+app.post('/api/statusChange', function(req,res) {
+  // if (!req.body) return res.sendStatus(400)
+  var token = _.find(req.user.tokens, { kind: 'google' });
+
 });
 
 app.get('/api', apiController.getApi);
@@ -197,6 +217,10 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
 });
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile',  'email', 'https://www.googleapis.com/auth/calendar'] }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
+  res.redirect(req.session.returnTo || '/');
+});
+app.get('/auth/dropbox', passport.authenticate('dropbox'));
+app.get('/auth/dropbox/callback', passport.authenticate('dropbox', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
 app.get('/auth/twitter', passport.authenticate('twitter'));

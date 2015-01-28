@@ -77,9 +77,16 @@ module.exports = {
     passReqToCallback: true
   },
 
+  dropbox: {
+    clientID: process.env.DROPBOX_ID || 'z1v2ln4vafhe7zj',
+    clientSecret: process.env.DROPBOX_SECRET || 'ko41wqchaqinco5',
+    callbackURL: '/auth/dropbox/callback',
+    passReqToCallback: true
+  },
+
   google: {
-    clientID: process.env.GOOGLE_ID || '687957599433-65hgr212bl4aq7kilkt4b0v4vhd12pjt.apps.googleusercontent.com',
-    clientSecret: process.env.GOOGLE_SECRET || '3tgG0fb1m36lg8X1VR-Z0xH7',
+    clientID: process.env.GOOGLE_ID || '687957599433-o7gvdaeeva5pbijsvl96vvr74s2qfu95.apps.googleusercontent.com',
+    clientSecret: process.env.GOOGLE_SECRET || 'YzUOadJmNPqrzameTNT0cQgz',
     callbackURL: '/auth/google/callback',
     passReqToCallback: true
   },
