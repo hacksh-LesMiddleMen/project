@@ -42,6 +42,7 @@ var passportConf = require('./config/passport');
  */
 var app = express();
 
+var user = undefined;
 /**
  * Connect to MongoDB.
  */
@@ -118,51 +119,41 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  */
 app.post('/api/statusChange', function(req,res) {
   if (!req.body) return res.sendStatus(400)
-  console.log(req.body);
-  oldstate_title = req.body.oldState.title
-  newstate_title = req.body.newState.title
+  if (user === undefined) {
+    user = req.user
+  }
+  oldstate_title = req.body.oldState.title;
+  newstate_title = req.body.newState.title;
 
-  var token = _.find(req.user.tokens, { kind: 'google' });
+
+  var token = _.find(user.tokens, { kind: 'google' });
   calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
   dateTime = Date.now();
-  console.log(token);
-  console.log(dateTime);
+  // console.log(token);
+  // console.log(dateTime);
   dateTime = "2014-07-23T18:25:00.000-07:00";
 
+
+  format_title = "Status changed from " + oldstate_title + " to " + newstate_title;
+
   var body = {
-    "summary": 'test2',
-    "description": 'test',
+    "summary": format_title,
+    "description": 'Please insert pretty data here',
     "end": {
-      "dateTime": dateTime
+      "dateTime": new Date().toISOString()
     },
     "start": {
-      "dateTime": dateTime
+      "dateTime": new Date().toISOString()
     }
   }
-  // console.log(req.user.tokens);
-  // console.log(token);
-  // console.log(token.accessToken);
-  // console.log(body);
 
-  // gcal(token.accessToken).calendarList.list(function(err, data) {
-  //   if(err) return res.send(500,err);
-  //   return res.send(data);
-  // });
-  format_title = "Status changed from " + oldstate_title + " to " + newstate_title;
-  gcal(token.accessToken).events.quickAdd(calendarId, format_title, function(err, data) {
+  gcal(token.accessToken).events.insert(calendarId, body, function(err, data) {
     if(err) return res.send(500,err);
 
     console.log(data);
 
     return res.send(data);
   });
-  // gcal(token.accessToken).events.insert(calendarId, {resource: body} , function(err, data) {
-  //   if(err) return res.send(500,err);
-  //
-  //   console.log(data);
-  //
-  //   return res.send(data);
-  // });
 });
 
 app.post('/api/statusChange', function(req,res) {
