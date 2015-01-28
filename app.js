@@ -49,7 +49,9 @@ var calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
  * Connect to MongoDB.
  */
 mongoose.connect(secrets.db);
-mongoose.connection.on('error', function() {
+mongoose.connection.on('error', function(err) {
+  console.log (err);
+  if (err) throw err;
   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
 });
 
@@ -78,7 +80,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: secrets.sessionSecret,
-  // store: new MongoStore({ url: secrets.db, autoReconnect: true })
+  store: new MongoStore({ url: secrets.db, autoReconnect: true })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
