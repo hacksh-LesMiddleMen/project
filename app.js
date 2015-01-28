@@ -43,6 +43,8 @@ var passportConf = require('./config/passport');
 var app = express();
 
 var user = undefined;
+var calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
+
 /**
  * Connect to MongoDB.
  */
@@ -114,6 +116,32 @@ app.post('/account/password', passportConf.isAuthenticated, userController.postU
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
 
+
+app.post('/api/watchCalendar', function (req,res) {
+  var token = 'ya29.CQFandYflu39KPflDGrmVBJEIDG2E8Dnk5GGAcRQJBrL$Gf_NHPNYx315UyhdSa8VJmDHsDSEACHBA'
+  var url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/watch'
+  // var token = _.find(user.tokens, { kind: 'google' });
+
+  var options = {
+    url: url,
+    method: "POST",
+    headers: {
+      "Authorization": "Brearer" + token,
+      "Content-Type": "application/json"
+    },
+    body: {
+      "id": "01234567-89ab-cdef-0123456789ab", // Your channel ID.
+      "type": "web_hook",
+      "address": "https://glacial-falls-6897.herokuapp.com/api/watchCallback" // Your receiving URL.
+    }
+  }
+
+  request(options, function (error, response, body) {
+    console.log ("Hello !");
+  });
+
+});
+
 /**
  * API examples routes.
  */
@@ -127,9 +155,8 @@ app.post('/api/statusChange', function(req,res) {
 
 
   var token = _.find(user.tokens, { kind: 'google' });
-  calendarId = '0rd4687k3v8e4ku6lnmhvrd0mg@group.calendar.google.com';
   dateTime = Date.now();
-  // console.log(token);
+  console.log(token.accessToken);
   // console.log(dateTime);
   dateTime = "2014-07-23T18:25:00.000-07:00";
 
@@ -156,9 +183,8 @@ app.post('/api/statusChange', function(req,res) {
   });
 });
 
-app.post('/api/statusChange', function(req,res) {
-  // if (!req.body) return res.sendStatus(400)
-  var token = _.find(req.user.tokens, { kind: 'google' });
+app.post('/api/watchCallback', function(req,res) {
+  console.log("Callback worked");
 
 });
 
