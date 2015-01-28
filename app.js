@@ -132,7 +132,7 @@ app.post('/api/watchCalendar', function (req,res) {
     url: url,
     method: "POST",
     headers: {
-      "Authorization": token.accessToken,
+      "Authorization": 'Bearer ' + token.accessToken,
       "Content-Type": "application/json"
     },
     json: {
@@ -144,9 +144,7 @@ app.post('/api/watchCalendar', function (req,res) {
 
   request(options, function (error, response, body) {
     console.log(error);
-    console.log(response);
-    console.log(body);
-    console.log ("Hello !");
+    console.log("----------------------------------------------------");
   });
 
 });
@@ -201,6 +199,7 @@ app.post('/api/watchCallback', function(req,res) {
   var token = _.find(user.tokens, { kind: 'google' });
   gcal(token.accessToken).events.get(calendarId, eventId, function(err, data) {
     if(err) return res.send(500,err);
+    console.log("====================================================");
 
     console.log(data);
 
