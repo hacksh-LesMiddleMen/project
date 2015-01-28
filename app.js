@@ -193,7 +193,7 @@ app.post('/api/statusChange', function(req,res) {
 });
 
 app.post('/api/watchCallback', function(req,res) {
-  console.log(req);
+  console.log(req.body);
   console.log("Callback worked");
 
 });
