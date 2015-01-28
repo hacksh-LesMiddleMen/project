@@ -22,6 +22,7 @@ var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
 var gcal = require('google-calendar');
+var uuid = require('node-uuid');
 
 /**
  * Controllers (route handlers).
@@ -124,7 +125,6 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 
 app.post('/api/watchCalendar', function (req,res) {
-  // var token = 'ya29.CQFandYflu39KPflDGrmVBJEIDG2E8Dnk5GGAcRQJBrL$Gf_NHPNYx315UyhdSa8VJmDHsDSEACHBA'
   var url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/watch'
   var token = _.find(user.tokens, { kind: 'google' });
 
@@ -136,7 +136,7 @@ app.post('/api/watchCalendar', function (req,res) {
       "Content-Type": "application/json"
     },
     json: {
-      "id": "01234567-89ab-cdef-0123456789ab", // Your channel ID.
+      "id": uuid.v4(), // Your channel ID.
       "type": "web_hook",
       "address": "https://glacial-falls-6897.herokuapp.com/api/watchCallback" // Your receiving URL.
     }
